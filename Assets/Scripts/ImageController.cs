@@ -54,13 +54,13 @@ public class ImageController : MonoBehaviour
         {
             if (m_spawnedCharacters.TryGetValue(trackedImage.referenceImage.name, out var character))
             {
-                character.transform.SetPositionAndRotation(
-                    trackedImage.pose.position,
-                    trackedImage.pose.rotation);
-                
-                Transform debugTransform = m_spawnedDebugTexts[trackedImage.referenceImage.name].transform;
-                debugTransform.position = trackedImage.pose.position + Vector3.up * 0.2f;
-                debugTransform.rotation = Quaternion.LookRotation((debugTransform.position - mainCamera.transform.position).normalized, Vector3.up);
+                // character.transform.SetPositionAndRotation(
+                //     trackedImage.pose.position,
+                //     trackedImage.pose.rotation);
+                //
+                // Transform debugTransform = m_spawnedDebugTexts[trackedImage.referenceImage.name].transform;
+                // debugTransform.position = trackedImage.pose.position + Vector3.up * 0.2f;
+                // debugTransform.rotation = Quaternion.LookRotation((debugTransform.position - mainCamera.transform.position).normalized, Vector3.up);
             }
             else
             {
@@ -68,8 +68,10 @@ public class ImageController : MonoBehaviour
 
                 if (m_cardConfidence[trackedImage.referenceImage.name] > 10)
                 {
-                    SpawnCharacter(trackedImage);
-                    m_cardConfidence[trackedImage.referenceImage.name] = 0;
+                    if (SpawnCharacter(trackedImage))
+                    {
+                        m_cardConfidence[trackedImage.referenceImage.name] = 0;
+                    }
                 }
             }
         }
@@ -89,17 +91,37 @@ public class ImageController : MonoBehaviour
     {
         CardData.Card card = Array.Find(characterCardData.Cards, c => c.cardId == trackedImage.referenceImage.name);
 
-        if (card != null && trackedImage.trackingState == TrackingState.Tracking)
+        if (card != null && trackedImage.trackingState == TrackingState.Tracking && GetClosestSpawnDistance(trackedImage.pose.position) >= 0.15f)
         {
             var instance = Instantiate(card.cardPrefab, trackedImage.pose.position, trackedImage.pose.rotation);
             m_spawnedCharacters.Add(trackedImage.referenceImage.name, instance.GetComponent<CardCharacter>());
             var debugText = Instantiate(debugTextPrefab, debugCanvas.transform);
-            debugText.rectTransform.SetPositionAndRotation(trackedImage.pose.position + Vector3.up * 0.2f, trackedImage.pose.rotation);
+            Quaternion rot = Quaternion.LookRotation((debugText.transform.position - mainCamera.transform.position).normalized, Vector3.up);
+            debugText.rectTransform.SetPositionAndRotation(trackedImage.pose.position + Vector3.up * 0.2f, rot);
             debugText.text = trackedImage.referenceImage.name;
             m_spawnedDebugTexts.Add(trackedImage.referenceImage.name, debugText);
             return true;
         }
         
         return false;
+    }
+
+    private float GetClosestSpawnDistance(Vector3 location)
+    {
+        float closestDistance = float.PositiveInfinity;
+        Transform closest = null;
+
+        foreach (var spawnedCharacter in m_spawnedCharacters)
+        {
+            float currentDistance =
+                Vector3.Distance(location, spawnedCharacter.Value.transform.position);
+            if (currentDistance < closestDistance)
+            {
+                closestDistance = currentDistance;
+                closest = spawnedCharacter.Value.transform;
+            }
+        }
+
+        return closestDistance;
     }
 }
