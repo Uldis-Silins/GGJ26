@@ -4,16 +4,21 @@ using UnityEngine.XR.ARFoundation;
 
 public class AppManager : MonoBehaviour
 {
-    private static AppManager m_instance;
+    private static AppManager s_instance;
+
+    private void Awake()
+    {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+    }
 
     private void OnEnable()
     {
-        if (m_instance != null)
+        if (s_instance != null)
         {
             throw new SystemException("AppManager already exists");
         }
 
-        m_instance = this;
+        s_instance = this;
         DontDestroyOnLoad(gameObject);
     }
 }
