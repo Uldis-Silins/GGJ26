@@ -109,7 +109,6 @@ public class ImageController : MonoBehaviour
     private float GetClosestSpawnDistance(Vector3 location)
     {
         float closestDistance = float.PositiveInfinity;
-        Transform closest = null;
 
         foreach (var spawnedCharacter in m_spawnedCharacters)
         {
@@ -118,7 +117,6 @@ public class ImageController : MonoBehaviour
             if (currentDistance < closestDistance)
             {
                 closestDistance = currentDistance;
-                closest = spawnedCharacter.Value.transform;
             }
         }
 
