@@ -117,3 +117,9 @@ MonoBehaviour:
     cardPrefab: {fileID: 7191910446036212353, guid: a0b49a3e2d94c451aa5de57db00e90f8, type: 3}
   - cardId: Pi_Q
     cardPrefab: {fileID: 87389009878221311, guid: 573810a345b5f4b4498e71ba5a591b17, type: 3}
+  - cardId: Jo_M
+    cardPrefab: {fileID: 2376628335319789142, guid: a70a2fe82b6c54088b1acaf15ca7af15, type: 3}
+  - cardId: Jo_S
+    cardPrefab: {fileID: 4422358799090058819, guid: 0a45cd3f9bc0249ae9825293c6f51265, type: 3}
+  - cardId: Jo_Z
+    cardPrefab: {fileID: 3231120304319627340, guid: c57ac757a2be5403ab174956f5dc0c45, type: 3}
