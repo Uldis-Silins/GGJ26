@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "com.unity.device-simulator.devices": "1.0.1",
     "com.unity.feature.ar": "1.0.2",
+    "com.unity.ide.rider": "3.0.39",
     "com.unity.multiplayer.center": "1.0.1",
     "com.unity.shadergraph": "17.3.0",
     "com.unity.modules.accessibility": "1.0.0",
