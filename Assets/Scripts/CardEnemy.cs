@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CardEnemy : MonoBehaviour
 {
+    public Transform characterTransform;
     public int health = 100;
     
     [SerializeField] private Animator m_animator;

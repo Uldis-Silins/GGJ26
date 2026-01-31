@@ -49,10 +49,17 @@ MonoBehaviour:
   onInteractionReached:
     m_PersistentCalls:
       m_Calls: []
+  onKilled:
+    m_PersistentCalls:
+      m_Calls: []
   suit: 1
   face: 3
   agent: {fileID: -438420743390112723}
   m_animator: {fileID: 3111654229199281343}
+  m_strongAttackSuit: 1
+  m_weakAttackSuit: 1
+  m_strongHitSuit: 2
+  m_weakHitSuit: 3
 --- !u!195 &-438420743390112723
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -64,10 +71,10 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.05
   m_Speed: 0.1
-  m_Acceleration: 8
+  m_Acceleration: 0.5
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.001
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -93,15 +100,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6851820846335403950, guid: 2b1346e462caaff47b6d3fbdf2f9a435, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.1
+      value: 0.07
       objectReference: {fileID: 0}
     - target: {fileID: 6851820846335403950, guid: 2b1346e462caaff47b6d3fbdf2f9a435, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.1
+      value: 0.07
       objectReference: {fileID: 0}
     - target: {fileID: 6851820846335403950, guid: 2b1346e462caaff47b6d3fbdf2f9a435, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.1
+      value: 0.07
       objectReference: {fileID: 0}
     - target: {fileID: 6851820846335403950, guid: 2b1346e462caaff47b6d3fbdf2f9a435, type: 3}
       propertyPath: m_LocalPosition.x

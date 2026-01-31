@@ -22,6 +22,9 @@ public class ImageController : MonoBehaviour
     private readonly Dictionary<string, int> m_cardConfidence = new();
     private string m_prevTrackedImageName;
     
+    public bool CharacterSpawned { get; set; }
+    public bool InteractionSpawned { get; set; }
+    
     private void OnEnable()
     {
         trackedImageManager.trackablesChanged.AddListener(OnTrackablesChanged);
@@ -47,19 +50,21 @@ public class ImageController : MonoBehaviour
                 m_cardConfidence[m_prevTrackedImageName] = 0;
             }
             
+            if(trackedImage.trackingState != TrackingState.Tracking) continue;
+            
             m_cardConfidence[trackedImage.referenceImage.name]++;
 
-            if (m_cardConfidence[trackedImage.referenceImage.name] > 1)
+            if (m_cardConfidence[trackedImage.referenceImage.name] > 0)
             {
                 if (SpawnEnemy(trackedImage))
                 {
                     m_cardConfidence[trackedImage.referenceImage.name] = 0;
                 }
-                else if (SpawnCharacter(trackedImage))
+                else if (SpawnCharacter(trackedImage)&& !CharacterSpawned)
                 {
                     m_cardConfidence[trackedImage.referenceImage.name] = 0;
                 }
-                else if (SpawnInteraction(trackedImage))
+                else if (SpawnInteraction(trackedImage) && !InteractionSpawned)
                 {
                     m_cardConfidence[trackedImage.referenceImage.name] = 0;
                 }

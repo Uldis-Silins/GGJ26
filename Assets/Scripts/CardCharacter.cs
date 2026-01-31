@@ -88,15 +88,7 @@ public class CardCharacter : MonoBehaviour
         if (m_moveTargetInteraction != null && agent.remainingDistance <= agent.stoppingDistance &&
             m_interactionSequenceCoroutine == null)
         {
-            if (Vector3.Angle(transform.position + transform.forward,
-                    transform.position - TargetEnemy.transform.position) >= 5f)
-            {
-                Quaternion targetRotation =
-                    Quaternion.LookRotation(TargetEnemy.transform.position - transform.position);
-                transform.rotation = targetRotation;
-            }
-
-            m_interactionSequenceCoroutine = StartCoroutine(DoInteractionSequence());
+            m_interactionSequenceCoroutine = StartCoroutine(DoInteractionSequence(m_moveTargetInteraction));
             m_moveTargetInteraction = null;
         }
 
@@ -105,34 +97,38 @@ public class CardCharacter : MonoBehaviour
 
     public void SetDestination(CardInteraction interaction)
     {
+        if(IsDead) return;
+        
         m_moveTargetInteraction = interaction;
         agent.SetDestination(interaction.transform.position);
     }
     
     private void Interact()
     {
+        int animHash = -1;
+        
         if (m_moveTargetInteraction.suit == m_strongAttackSuit)
         {
             m_hp += m_moveTargetInteraction.value;
-            m_animator.SetTrigger(AttackBig);
+            animHash = AttackBig;
             TargetEnemy.Hit(m_moveTargetInteraction.value);
         }
         else if (m_moveTargetInteraction.suit == m_weakAttackSuit)
         {
             m_hp += m_moveTargetInteraction.value;
-            m_animator.SetTrigger(AttackSmall);
+            animHash = AttackSmall;
             TargetEnemy.Hit(m_moveTargetInteraction.value);
         }
         else if (m_moveTargetInteraction.suit == m_strongHitSuit)
         {
             m_hp -= m_moveTargetInteraction.value;
-            m_animator.SetTrigger(HitBig);
+            animHash = HitBig;
             TargetEnemy.AttackPlayer(true);
         }
         else if (m_moveTargetInteraction.suit == m_weakHitSuit)
         {
             m_hp -= m_moveTargetInteraction.value;
-            m_animator.SetTrigger(HitSmall);
+            animHash = HitSmall;
             TargetEnemy.AttackPlayer(false);
         }
         
@@ -140,16 +136,37 @@ public class CardCharacter : MonoBehaviour
         {
             onKilled?.Invoke();
             m_animator.SetTrigger("dead");
+            agent.enabled = false;
             IsDead = true;
+        }
+        else
+        {
+            m_animator.SetTrigger(animHash);
         }
     }
     
-    private IEnumerator DoInteractionSequence()
+    private IEnumerator DoInteractionSequence(CardInteraction completedInteraction)
     {
-        Interact(); 
+        Interact();
         
-        yield return new WaitForSeconds(1.5f);
-        onInteractionReached?.Invoke(m_moveTargetInteraction);
+        if(IsDead) yield break;
+
+        yield return null;
+
+        while (m_animator.IsInTransition(0) || !m_animator.GetCurrentAnimatorStateInfo(0).IsName("Walking"))
+        {
+            if (Vector3.SignedAngle(transform.position + transform.forward,
+                       (transform.position - TargetEnemy.transform.position).normalized, Vector3.up) >= Mathf.Abs(5f))
+            {
+                Quaternion targetRotation =
+                    Quaternion.LookRotation(TargetEnemy.transform.position - transform.position);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+            }
+            
+            yield return null;
+        }
+
+        onInteractionReached?.Invoke(completedInteraction);
         m_interactionSequenceCoroutine = null;
     }
 }

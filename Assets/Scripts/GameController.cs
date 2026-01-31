@@ -70,7 +70,7 @@ public class GameController : MonoBehaviour
         {
             Vector3 lookDir = m_currentCharacter.transform.position - m_joker.transform.position;
             lookDir.y = 0;
-            m_joker.transform.rotation = Quaternion.LookRotation(lookDir.normalized);
+            m_joker.characterTransform.transform.rotation = Quaternion.LookRotation(lookDir.normalized);
             m_enemyDebugText.text = m_joker.health.ToString();
         }
     }
@@ -79,7 +79,7 @@ public class GameController : MonoBehaviour
     {
         if (CurrentGameState == GameStateType.Playing && m_joker != null)
         {
-            if (m_currentCharacter == null || m_currentCharacter.IsDead && !m_spawnedCharacters.ContainsKey(imageName))
+            if ((m_currentCharacter == null || m_currentCharacter.IsDead) && !m_spawnedCharacters.ContainsKey(imageName))
             {
                 var instance = Instantiate(card.cardPrefab, pose.position, pose.rotation);
                 var character = instance.GetComponent<CardCharacter>();
@@ -91,26 +91,42 @@ public class GameController : MonoBehaviour
                 lookDir.y = 0;
                 instance.transform.rotation = Quaternion.LookRotation(lookDir);
                 
+                m_currentCharacter.onKilled.AddListener(() => { 
+                    m_currentCharacter = null; 
+                    m_currentInteraction  = null; 
+                    imageController.InteractionSpawned = false; 
+                    imageController.CharacterSpawned = false; 
+                });
+
+                imageController.CharacterSpawned = true;
+                
                 var spawned = Instantiate(debugTextPrefab, debugCanvas.transform);
                 m_characterDebugTexts.Add(m_currentCharacter, spawned);
                 spawned.text = character.face + " of " + character.suit;
             }   
         }
     }
-    
+
     private void OnInteractionSpawned(CardData.Card card, Pose pose, string imageName)
     {
-        var instance = Instantiate(card.cardPrefab, pose.position, pose.rotation);
-        var interaction = instance.GetComponent<CardInteraction>();
-
-        if (!m_playedInteractions.Contains(interaction) && !m_spawnedInteractions.ContainsKey(imageName))
+        if (m_spawnedInteractions.ContainsKey(imageName)) return;
+        
+        if (m_currentInteraction == null && m_currentCharacter != null)
         {
-            if (m_currentInteraction == null && m_currentCharacter != null)
+            var instance = Instantiate(card.cardPrefab, pose.position, pose.rotation);
+            var interaction = instance.GetComponent<CardInteraction>();
+
+            if (m_playedInteractions.Contains(interaction)) return;
+            
+            m_currentInteraction = interaction;
+            m_currentCharacter.SetDestination(interaction);
+            m_currentCharacter.onInteractionReached.AddListener((i) =>
             {
-                m_currentInteraction = interaction;
-                m_currentCharacter.SetDestination(interaction);
-                m_currentCharacter.onInteractionReached.AddListener((i) => { m_currentInteraction = null;});
-            }
+                m_currentInteraction = null; 
+                imageController.InteractionSpawned = false;
+            });
+            
+            imageController.InteractionSpawned = true;
             
             m_spawnedInteractions.Add(imageName, interaction);
 
@@ -119,7 +135,7 @@ public class GameController : MonoBehaviour
             spawned.text = interaction.value + " of " + interaction.suit;
         }
     }
-    
+
     private void OnEnemySpawned(CardData.Card card, Pose pose, string imageName)
     {
         if (CurrentGameState != GameStateType.Playing && m_joker == null)
