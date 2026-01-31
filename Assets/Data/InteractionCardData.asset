@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f968178c53547978e7793d1d490677b, type: 3}
+  m_Name: InteractionCardData
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  <Cards>k__BackingField:
+  - cardId: Er_02
+    cardPrefab: {fileID: 6084000401816789502, guid: 770911be6683348a4a10722d0dc4778c, type: 3}
+  - cardId: Er_03
+    cardPrefab: {fileID: 4887170837469807743, guid: 8cf3001bb95fa4505bec6e4c44ed06ba, type: 3}
+  - cardId: Er_04
+    cardPrefab: {fileID: 2446091865440258430, guid: 58a83311b0c2d496bbd644bd48f12912, type: 3}
+  - cardId: Er_05
+    cardPrefab: {fileID: 8602284039757231190, guid: 7363db51282a344afbc6eb8e5740ae46, type: 3}
+  - cardId: Er_06
+    cardPrefab: {fileID: 2293330848421586663, guid: 6ad9a1281ce7a4872acb4ec96035f642, type: 3}
+  - cardId: Er_07
+    cardPrefab: {fileID: 6858719824853721584, guid: 6838d20c85a274b71b187b2f1c48341b, type: 3}
+  - cardId: Er_08
+    cardPrefab: {fileID: 4089656413377175649, guid: b266484b025e44a9e94d5cdb52a5e410, type: 3}
+  - cardId: Er_09
+    cardPrefab: {fileID: 359155754557260039, guid: a42aa395014114d20afc323f9d3377d0, type: 3}
+  - cardId: Er_10
+    cardPrefab: {fileID: 3445182659915946788, guid: 49e966ccf3a654500aeb58642fe4f589, type: 3}
+  - cardId: Er_A
+    cardPrefab: {fileID: 1394525010551883711, guid: 92b8859e15af6493dbcffc8f1de84701, type: 3}
+  - cardId: Ka_02
+    cardPrefab: {fileID: 5955609884861094618, guid: b1ba383028e80414ebb5e7f66931cfde, type: 3}
+  - cardId: Ka_03
+    cardPrefab: {fileID: 2727590333721202815, guid: 7ae72b15a12394a4e8a5e1424cf68032, type: 3}
+  - cardId: Ka_04
+    cardPrefab: {fileID: 8937840028062979412, guid: 125c9e49d72204797ac16bd6aa2979a0, type: 3}
+  - cardId: Ka_05
+    cardPrefab: {fileID: 3198370316239351809, guid: 98070718174f94482bddce511a80a73c, type: 3}
+  - cardId: Ka_06
+    cardPrefab: {fileID: 5269464310680826302, guid: 41cee705c2fc84ebdbc47fb6e36e12e4, type: 3}
+  - cardId: Ka_07
+    cardPrefab: {fileID: 5582113479424504445, guid: d47d2e3f8561341e3b10e23b94c64c8d, type: 3}
+  - cardId: Ka_08
+    cardPrefab: {fileID: 2641267687971389971, guid: 662e3a714519f4242aeb761cb10954f5, type: 3}
+  - cardId: Ka_09
+    cardPrefab: {fileID: 2606660262515394246, guid: d857dbc8e1c8249b7a58f8f096f3a70c, type: 3}
+  - cardId: Ka_10
+    cardPrefab: {fileID: 1698019110941796817, guid: d9019d5e0b0e440cb833384893da5307, type: 3}
+  - cardId: Ka_A
+    cardPrefab: {fileID: 2866662588107491804, guid: a11c187151db24468bade1e07505c6db, type: 3}
+  - cardId: Kr_02
+    cardPrefab: {fileID: 6333165479528986941, guid: 670380a162dcb48909d27a5910a60de1, type: 3}
+  - cardId: Kr_03
+    cardPrefab: {fileID: 6715075009785093681, guid: 2246bbf21bc91401aa2e2bd25a4985e8, type: 3}
+  - cardId: Kr_04
+    cardPrefab: {fileID: 7405084871092663264, guid: 15cbc870fcad74cceb577b76c1c1d5e7, type: 3}
+  - cardId: Kr_05
+    cardPrefab: {fileID: 6691954727342752123, guid: 7475f59e7ad9b4068be792a59084caab, type: 3}
+  - cardId: Kr_06
+    cardPrefab: {fileID: 5208412250822307256, guid: cdb5f60891b9445ee94dd148a5dbfda4, type: 3}
+  - cardId: Kr_07
+    cardPrefab: {fileID: 1491462609753570743, guid: 8e2e69421be9b4792ad7f85a7dbd6b18, type: 3}
+  - cardId: Kr_08
+    cardPrefab: {fileID: 1275370258044147271, guid: bdaa1a73ce5b441c3b1451929d348cab, type: 3}
+  - cardId: Kr_09
+    cardPrefab: {fileID: 4188280021196688577, guid: 0dfa87337dfb0436cb2a15e5a9eb737b, type: 3}
+  - cardId: Kr_10
+    cardPrefab: {fileID: 8050502312238488967, guid: 53c8a3fab7b7f4e85ba93cc7c759f09e, type: 3}
+  - cardId: Kr_A
+    cardPrefab: {fileID: 2758865798718063318, guid: 55316c2d2b4c048eab3db9130454b118, type: 3}
+  - cardId: Pi_02
+    cardPrefab: {fileID: 4150340491626793138, guid: 7eea13a00caee46bda93764299c7e8f8, type: 3}
+  - cardId: Pi_03
+    cardPrefab: {fileID: 3227991171302820835, guid: 5c8942001ec60458e86c7013085f3bb1, type: 3}
+  - cardId: Pi_04
+    cardPrefab: {fileID: 1211055143084397230, guid: f2f21834de8dd4b03b27bf8d299ac46e, type: 3}
+  - cardId: Pi_05
+    cardPrefab: {fileID: 4334700737994459479, guid: 0336246ae3d3749c296a1cb82c09889b, type: 3}
+  - cardId: Pi_06
+    cardPrefab: {fileID: 1621279790709951793, guid: a05fe878e8a364f9b810ccd33e0a61bd, type: 3}
+  - cardId: Pi_07
+    cardPrefab: {fileID: 154275533747593990, guid: 0835a202005fc4e4d92115d3aad8c226, type: 3}
+  - cardId: Pi_08
+    cardPrefab: {fileID: 1739607000268440881, guid: bcafc2fc254ec40b49c4f401a9cd91c1, type: 3}
+  - cardId: Pi_09
+    cardPrefab: {fileID: 4156871283193051112, guid: 8d77796568d1441c6a417f31c23a51ed, type: 3}
+  - cardId: Pi_10
+    cardPrefab: {fileID: 2449521288604012940, guid: d5078e76ddb2147f8aacfb8c7a5b8c3e, type: 3}
+  - cardId: Pi_A
+    cardPrefab: {fileID: 4985171044255358820, guid: 7a3527906572f4b5ea9383a14b28efb4, type: 3}

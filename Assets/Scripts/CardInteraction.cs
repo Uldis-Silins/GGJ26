@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class CardInteraction : MonoBehaviour
 {
+    public CardData.CardSuitType suit;
+    public int value;
+    
     private void OnDrawGizmos()
     {
         Color previousColor = Gizmos.color;

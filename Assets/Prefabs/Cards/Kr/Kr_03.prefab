@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3923d19788e5473090b76c401b4705a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardInteraction
+  suit: 4
+  value: 3
 --- !u!1 &8246752256398846753
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f968178c53547978e7793d1d490677b, type: 3}
-  m_Name: MapCardData
+  m_Name: EnemyCardData
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   <Cards>k__BackingField:
-  - cardId: 0_MUGURA
-    cardPrefab: {fileID: 515138438279124536, guid: 3646a46e220c44290ac8bdc77c2bfea2, type: 3}
+  - cardId: Jo_M
+    cardPrefab: {fileID: 2376628335319789142, guid: a70a2fe82b6c54088b1acaf15ca7af15, type: 3}
+  - cardId: Jo_S
+    cardPrefab: {fileID: 4422358799090058819, guid: 0a45cd3f9bc0249ae9825293c6f51265, type: 3}

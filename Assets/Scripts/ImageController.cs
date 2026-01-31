@@ -10,24 +10,18 @@ public class ImageController : MonoBehaviour
 {
     public event Action<CardData.Card, Pose, string> onCharacterSpawned;
     public event Action<CardData.Card, Pose, string> onInteractionSpawned;
+    public event Action<CardData.Card, Pose, string> onEnemySpawned;
     
     public ARTrackedImageManager trackedImageManager;
     public CardData characterCardData;
     public CardData interactionCardData;
-    public CardData mapCardData;
-    
-    public Canvas debugCanvas;
-    public TextMeshProUGUI debugTextPrefab;
-    public Camera mainCamera;
+    public CardData enemyCardData;
 
     public ParticleSystem spawnParticlesPrefab;
-
-    private readonly Dictionary<string, TextMeshProUGUI> m_spawnedDebugTexts = new();
     
     private readonly Dictionary<string, int> m_cardConfidence = new();
+    private string m_prevTrackedImageName;
     
-    public bool IsMapSpawned { get; private set; }
-
     private void OnEnable()
     {
         trackedImageManager.trackablesChanged.AddListener(OnTrackablesChanged);
@@ -42,26 +36,26 @@ public class ImageController : MonoBehaviour
     {
         foreach (ARTrackedImage trackedImage in trackables.added)
         {
-            if (!IsMapSpawned)
-            {
-                var mapCard = Array.Find(mapCardData.Cards, c => c.cardId == trackedImage.referenceImage.name);
-                if (mapCard != null)
-                {
-                    Instantiate(mapCard.cardPrefab, trackedImage.pose.position, trackedImage.pose.rotation);
-                    IsMapSpawned = true;
-                }
-            }
-
             m_cardConfidence.TryAdd(trackedImage.referenceImage.name, 0);
         }
 
         foreach (ARTrackedImage trackedImage in trackables.updated)
         {
+            if (!string.IsNullOrEmpty(m_prevTrackedImageName) && m_cardConfidence.ContainsKey(m_prevTrackedImageName) &&
+                trackedImage.referenceImage.name != m_prevTrackedImageName)
+            {
+                m_cardConfidence[m_prevTrackedImageName] = 0;
+            }
+            
             m_cardConfidence[trackedImage.referenceImage.name]++;
 
-            if (m_cardConfidence[trackedImage.referenceImage.name] > 10)
+            if (m_cardConfidence[trackedImage.referenceImage.name] > 0)
             {
-                if (SpawnCharacter(trackedImage))
+                if (SpawnEnemy(trackedImage))
+                {
+                    m_cardConfidence[trackedImage.referenceImage.name] = 0;
+                }
+                else if (SpawnCharacter(trackedImage))
                 {
                     m_cardConfidence[trackedImage.referenceImage.name] = 0;
                 }
@@ -85,13 +79,6 @@ public class ImageController : MonoBehaviour
         if (card != null && trackedImage.trackingState == TrackingState.Tracking)
         {
             onCharacterSpawned?.Invoke(card, trackedImage.pose, trackedImage.referenceImage.name);
-            
-            var debugText = Instantiate(debugTextPrefab, debugCanvas.transform);
-            Quaternion rot = Quaternion.LookRotation((debugText.transform.position - mainCamera.transform.position).normalized, Vector3.up);
-            debugText.rectTransform.SetPositionAndRotation(trackedImage.pose.position + Vector3.up * 0.2f, rot);
-            debugText.text = trackedImage.referenceImage.name;
-            m_spawnedDebugTexts.Add(trackedImage.referenceImage.name, debugText);
-            
             return true;
         }
         
@@ -105,13 +92,19 @@ public class ImageController : MonoBehaviour
         if (card != null && trackedImage.trackingState == TrackingState.Tracking)
         {
             onInteractionSpawned?.Invoke(card, trackedImage.pose, trackedImage.referenceImage.name);
-            
-            var debugText = Instantiate(debugTextPrefab, debugCanvas.transform);
-            Quaternion rot = Quaternion.LookRotation((debugText.transform.position - mainCamera.transform.position).normalized, Vector3.up);
-            debugText.rectTransform.SetPositionAndRotation(trackedImage.pose.position + Vector3.up * 0.2f, rot);
-            debugText.text = trackedImage.referenceImage.name;
-            m_spawnedDebugTexts.Add(trackedImage.referenceImage.name, debugText);
-            
+            return true;
+        }
+        
+        return false;
+    }
+    
+    private bool SpawnEnemy(ARTrackedImage trackedImage)
+    {
+        CardData.Card card = Array.Find(enemyCardData.Cards, c => c.cardId == trackedImage.referenceImage.name);
+
+        if (card != null && trackedImage.trackingState == TrackingState.Tracking)
+        {
+            onEnemySpawned?.Invoke(card, trackedImage.pose, trackedImage.referenceImage.name);
             return true;
         }
         
