@@ -46,9 +46,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e603aaed79224593805e7481f0ed7f90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardCharacter
+  onInteractionReached:
+    m_PersistentCalls:
+      m_Calls: []
   suit: 3
   face: 3
   agent: {fileID: 4499088283072379266}
+  m_animator: {fileID: 1468496034035884233}
 --- !u!195 &4499088283072379266
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -67,7 +71,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2
+  m_Height: 0.2
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
@@ -79,6 +83,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6250234553959059298}
     m_Modifications:
+    - target: {fileID: -2368807620343477893, guid: c9689d5735d35804f9cd69c37c84173d, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 11ec24f802aaf441bad9a7e447165574, type: 2}
     - target: {fileID: 89914734254037683, guid: c9689d5735d35804f9cd69c37c84173d, type: 3}
       propertyPath: m_Name
       value: KA
@@ -144,6 +152,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9689d5735d35804f9cd69c37c84173d, type: 3}
+--- !u!95 &1468496034035884233 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: -2368807620343477893, guid: c9689d5735d35804f9cd69c37c84173d, type: 3}
+  m_PrefabInstance: {fileID: 5422733460067789234}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4698885039554718139 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 753403328535805961, guid: c9689d5735d35804f9cd69c37c84173d, type: 3}
