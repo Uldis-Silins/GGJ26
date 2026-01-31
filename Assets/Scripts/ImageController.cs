@@ -49,7 +49,7 @@ public class ImageController : MonoBehaviour
             
             m_cardConfidence[trackedImage.referenceImage.name]++;
 
-            if (m_cardConfidence[trackedImage.referenceImage.name] > 0)
+            if (m_cardConfidence[trackedImage.referenceImage.name] > 1)
             {
                 if (SpawnEnemy(trackedImage))
                 {

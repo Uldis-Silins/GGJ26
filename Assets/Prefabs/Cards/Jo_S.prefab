@@ -47,6 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25032e2fbe304d469e669557ab4a2c1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardEnemy
+  health: 100
+  m_animator: {fileID: 3294496492462528966}
 --- !u!1 &4503727977369642393
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,8 +293,38 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cd98368f9e45ab74084cf59cee9273eb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3294496492462528966}
   m_SourcePrefab: {fileID: 100100000, guid: cd98368f9e45ab74084cf59cee9273eb, type: 3}
+--- !u!1 &5882528794857799646 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: cd98368f9e45ab74084cf59cee9273eb, type: 3}
+  m_PrefabInstance: {fileID: 6729390581456061071}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &3294496492462528966
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5882528794857799646}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 4fe0edd8d0d403d489d177f0bc4fc668, type: 3}
+  m_Controller: {fileID: 9100000, guid: 7ee4a52807e5442a58a10bcca7dc02bc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &6550802768401081700 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: cd98368f9e45ab74084cf59cee9273eb, type: 3}

@@ -25,9 +25,9 @@ public class GameController : MonoBehaviour
     private readonly Dictionary<string, CardCharacter> m_spawnedCharacters = new();
     private readonly Dictionary<string, CardInteraction>  m_spawnedInteractions = new();
     
-    private Dictionary<CardCharacter, Transform> m_characterDebugTexts = new();
-    private Dictionary<CardInteraction, Transform> m_interactionDebugTexts = new();
-    private Transform m_enemyDebugText;
+    private Dictionary<CardCharacter, TextMeshProUGUI> m_characterDebugTexts = new();
+    private Dictionary<CardInteraction, TextMeshProUGUI> m_interactionDebugTexts = new();
+    private TextMeshProUGUI m_enemyDebugText;
 
     public GameStateType CurrentGameState { get; private set; } = GameStateType.Setup;
     
@@ -49,20 +49,29 @@ public class GameController : MonoBehaviour
     {
         foreach (var interaction in m_interactionDebugTexts)
         {
-            interaction.Value.position = interaction.Key.transform.position + Vector3.up * 0.05f;
-            interaction.Value.rotation =
-                Quaternion.LookRotation(interaction.Value.position - debugTextCamera.transform.position);
+            interaction.Value.transform.position = interaction.Key.transform.position + Vector3.up * 0.05f;
+            interaction.Value.transform.rotation =
+                Quaternion.LookRotation(interaction.Value.transform.position - debugTextCamera.transform.position);
         }
 
         foreach (var character in m_characterDebugTexts)
         {
-            character.Value.position = character.Key.transform.position + Vector3.up * 0.2f;
-            character.Value.rotation = Quaternion.LookRotation(character.Value.transform.position - debugTextCamera.transform.position);
+            character.Value.transform.position = character.Key.transform.position + Vector3.up * 0.2f;
+            character.Value.transform.rotation = Quaternion.LookRotation(character.Value.transform.position - debugTextCamera.transform.position);
+            character.Value.text = character.Key.HP.ToString();
         }
 
         if (m_enemyDebugText)
         {
-            m_enemyDebugText.rotation = Quaternion.LookRotation(m_enemyDebugText.position - debugTextCamera.transform.position);
+            m_enemyDebugText.transform.rotation = Quaternion.LookRotation(m_enemyDebugText.transform.position - debugTextCamera.transform.position);
+        }
+
+        if (m_joker != null && m_currentCharacter != null)
+        {
+            Vector3 lookDir = m_currentCharacter.transform.position - m_joker.transform.position;
+            lookDir.y = 0;
+            m_joker.transform.rotation = Quaternion.LookRotation(lookDir.normalized);
+            m_enemyDebugText.text = m_joker.health.ToString();
         }
     }
 
@@ -70,10 +79,11 @@ public class GameController : MonoBehaviour
     {
         if (CurrentGameState == GameStateType.Playing && m_joker != null)
         {
-            if (m_currentCharacter == null || m_currentCharacter.IsDead)
+            if (m_currentCharacter == null || m_currentCharacter.IsDead && !m_spawnedCharacters.ContainsKey(imageName))
             {
                 var instance = Instantiate(card.cardPrefab, pose.position, pose.rotation);
                 var character = instance.GetComponent<CardCharacter>();
+                character.TargetEnemy = m_joker;
                 
                 m_currentCharacter = character;
                 m_spawnedCharacters.Add(imageName, character);
@@ -82,7 +92,7 @@ public class GameController : MonoBehaviour
                 instance.transform.rotation = Quaternion.LookRotation(lookDir);
                 
                 var spawned = Instantiate(debugTextPrefab, debugCanvas.transform);
-                m_characterDebugTexts.Add(m_currentCharacter, spawned.transform);
+                m_characterDebugTexts.Add(m_currentCharacter, spawned);
                 spawned.text = character.face + " of " + character.suit;
             }   
         }
@@ -105,17 +115,16 @@ public class GameController : MonoBehaviour
             m_spawnedInteractions.Add(imageName, interaction);
 
             var spawned = Instantiate(debugTextPrefab, debugCanvas.transform);
-            m_interactionDebugTexts.Add(interaction, spawned.transform);
+            m_interactionDebugTexts.Add(interaction, spawned);
             spawned.text = interaction.value + " of " + interaction.suit;
         }
     }
     
     private void OnEnemySpawned(CardData.Card card, Pose pose, string imageName)
     {
-        var instance = Instantiate(card.cardPrefab, pose.position, pose.rotation);
-
         if (CurrentGameState != GameStateType.Playing && m_joker == null)
         {
+            var instance = Instantiate(card.cardPrefab, pose.position, pose.rotation);
             m_joker = instance.GetComponent<CardEnemy>();
             CurrentGameState = GameStateType.Playing;
             
@@ -123,9 +132,9 @@ public class GameController : MonoBehaviour
             directionalLight.rotation = Quaternion.LookRotation(m_joker.transform.position - directionalLight.transform.position);
 
             var spawned = Instantiate(debugTextPrefab, debugCanvas.transform);
-            m_enemyDebugText = spawned.transform;
-            m_enemyDebugText.position = spawned.transform.position + Vector3.up * 0.2f;
-            spawned.text = "Joker";
+            m_enemyDebugText = spawned;
+            m_enemyDebugText.transform.position = spawned.transform.position + Vector3.up * 0.2f;
+            spawned.text = m_joker.health.ToString();
         }
     }
 }
