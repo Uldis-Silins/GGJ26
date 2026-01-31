@@ -10,13 +10,17 @@ public class ImageController : MonoBehaviour
 {
     public ARTrackedImageManager trackedImageManager;
     public CardData characterCardData;
+    public CardData interactionCardData;
     public CardData mapCardData;
     
     public Canvas debugCanvas;
     public TextMeshProUGUI debugTextPrefab;
     public Camera mainCamera;
+
+    public ParticleSystem spawnParticlesPrefab;
     
     private readonly Dictionary<string, CardCharacter> m_spawnedCharacters = new();
+    private readonly Dictionary<string, CardInteraction>  m_spawnedInteractions = new();
     private readonly Dictionary<string, TextMeshProUGUI> m_spawnedDebugTexts = new();
     
     private readonly Dictionary<string, int> m_cardConfidence = new();
@@ -95,11 +99,34 @@ public class ImageController : MonoBehaviour
         {
             var instance = Instantiate(card.cardPrefab, trackedImage.pose.position, trackedImage.pose.rotation);
             m_spawnedCharacters.Add(trackedImage.referenceImage.name, instance.GetComponent<CardCharacter>());
+            
             var debugText = Instantiate(debugTextPrefab, debugCanvas.transform);
             Quaternion rot = Quaternion.LookRotation((debugText.transform.position - mainCamera.transform.position).normalized, Vector3.up);
             debugText.rectTransform.SetPositionAndRotation(trackedImage.pose.position + Vector3.up * 0.2f, rot);
             debugText.text = trackedImage.referenceImage.name;
             m_spawnedDebugTexts.Add(trackedImage.referenceImage.name, debugText);
+            
+            return true;
+        }
+        
+        return false;
+    }
+
+    private bool SpawnInteraction(ARTrackedImage trackedImage)
+    {
+        CardData.Card card = Array.Find(interactionCardData.Cards, c => c.cardId == trackedImage.referenceImage.name);
+
+        if (card != null && trackedImage.trackingState == TrackingState.Tracking)
+        {
+            var instance = Instantiate(card.cardPrefab, trackedImage.pose.position, trackedImage.pose.rotation);
+            m_spawnedInteractions.Add(trackedImage.referenceImage.name, instance.GetComponent<CardInteraction>());
+            
+            var debugText = Instantiate(debugTextPrefab, debugCanvas.transform);
+            Quaternion rot = Quaternion.LookRotation((debugText.transform.position - mainCamera.transform.position).normalized, Vector3.up);
+            debugText.rectTransform.SetPositionAndRotation(trackedImage.pose.position + Vector3.up * 0.2f, rot);
+            debugText.text = trackedImage.referenceImage.name;
+            m_spawnedDebugTexts.Add(trackedImage.referenceImage.name, debugText);
+            
             return true;
         }
         
@@ -109,7 +136,6 @@ public class ImageController : MonoBehaviour
     private float GetClosestSpawnDistance(Vector3 location)
     {
         float closestDistance = float.PositiveInfinity;
-        Transform closest = null;
 
         foreach (var spawnedCharacter in m_spawnedCharacters)
         {
@@ -118,7 +144,6 @@ public class ImageController : MonoBehaviour
             if (currentDistance < closestDistance)
             {
                 closestDistance = currentDistance;
-                closest = spawnedCharacter.Value.transform;
             }
         }
 

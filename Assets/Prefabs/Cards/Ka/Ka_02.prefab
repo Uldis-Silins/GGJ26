@@ -99,7 +99,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2015957258076240917}
-  - component: {fileID: 2079708051827603391}
+  - component: {fileID: 5696629058930150063}
   m_Layer: 0
   m_Name: Ka_02
   m_TagString: Untagged
@@ -123,7 +123,7 @@ Transform:
   - {fileID: 1232849140378120593}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2079708051827603391
+--- !u!114 &5696629058930150063
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,6 +132,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5955609884861094618}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e603aaed79224593805e7481f0ed7f90, type: 3}
+  m_Script: {fileID: 11500000, guid: 3923d19788e5473090b76c401b4705a4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CardCharacter
+  m_EditorClassIdentifier: Assembly-CSharp::CardInteraction
